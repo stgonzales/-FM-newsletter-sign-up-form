@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -18,12 +19,26 @@ func main() {
 	staticFiles := http.Dir(filepath.Join(workDir, "assets"))
 
 	router := chi.NewRouter()
-
+	
 	router.Use(middleware.Logger)
 
-	FileServer(router, "/assets", staticFiles)
+	//Public Routes
+	router.Group(func(r chi.Router) {
+		router.Get("/", indexHandler)
+	})
 
-	router.Get("/", indexHandler)
+	//API Routes
+	router.Group(func(r chi.Router) {
+		//Middleware
+		r.Use(ValidateHTMXRequest)
+		//Subroutes
+		r.Route("/api", func(r chi.Router) {
+			r.Post("/signup-newsletter", postHandler)
+		})
+	})
+
+
+	FileServer(router, "/assets", staticFiles)
 
 	server := &http.Server{
 		Addr:    ":8080",
@@ -37,9 +52,30 @@ func main() {
 	}
 }
 
+func ValidateHTMXRequest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("HX-Request") != "true" {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	template := template.Must(template.ParseFiles("index.html"))
 	template.Execute(w, nil)
+}
+
+func postHandler(w http.ResponseWriter, r *http.Request) {
+	email := r.PostFormValue("email")
+
+	log.Println("email", email)
+
+	if email == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 }
 
 func FileServer(r chi.Router, path string, root http.FileSystem) {

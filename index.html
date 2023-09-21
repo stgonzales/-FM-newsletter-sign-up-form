@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/global.css">
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
     <title>Newsletter Sign-Up Form</title>
 </head>
 <body>
@@ -33,9 +34,12 @@
                 </ul>
             </div>
             <div class="form">
-                <form>
+                <form hx-post="/api/signup-newsletter" hx-validate="true">
                     <div class="input">
-                        <label for="email">Email address</label>
+                        <div class="label">
+                            <label for="email">Email address</label>
+                            <span>Valid email required</span>
+                        </div>
                         <input type="email" id="email" name="email" placeholder="email@company.com"/>
                     </div>
                     <button type="submit">Subscribe to monthly newsletter</button>
