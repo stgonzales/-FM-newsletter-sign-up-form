@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    font-size: 62.5%; /* 1rem = 10px */
+    font-family: 'Roboto', sans-serif;
+    font-feature-settings: 'clig' off, 'liga' off;
+
+    --navy-dark: #242742;
+    --navy-pale: #36384D;
+    --vermellion: #FF6155;
+
+    --heading-font-size: 5.6rem;
+    --body-font-size: 1.6rem;
+    --body-small-font-size: 1.2rem;
+    --bold: 700;
+
+    color: var(--navy-dark);
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+body {
+    background-color: var(--navy-pale);
+}
+
+.card {
+    position: absolute;
+
+    width: 928px;
+    height: 641px;
+    padding: 24px 24px 24px 64px;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+    border-radius: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content {
+    max-width: 376px;
+}
+
+h1 {
+    font-size: var(--heading-font-size);
+    line-height: 100%; /* 56px */
+    font-weight: var(--bold);
+}
+
+p {
+    font-size: var(--body-font-size);
+    line-height: 150%; /* 24px */
+}
+
+.subheading {
+    margin: 24px 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    height: 21px;
+}
+
+li img {
+    width: 21px;
+}
+
+li p {
+    padding-left: 16px;
+}
+
+li:nth-child(2) {
+    margin: 10px 0;
+}
+
+.form {
+    margin-top: 40px;
+}
+
+form .input {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    font-size: var(--body-small-font-size);
+    line-height: 150%; /* 18px */
+    font-weight: var(--bold);
+    margin-bottom: 8px;
+}
+
+form input {
+    width: 376px;
+    height: 56px;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    border: 1px solid var(--grey-25, rgba(25, 24, 43, 0.25));
+    padding: 16px 24px;
+}
+
+form input::placeholder {
+    font-size: var(--body-font-size);
+    line-height: 150%; /* 18px */
+    color: var(--navy-dark);
+    opacity: 0.5;
+}
+
+form input:focus {
+    outline: 2px solid var(--vermellion);
+}
+
+form button {
+    margin-top: 24px;
+
+    width: 376px;
+    height: 56px;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    background: var(--navy-dark);
+    color: white;
+    font-weight: var(--bold);
+}
+
+form input:hover,
+form button:hover {
+    cursor: pointer;
+}
