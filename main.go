@@ -15,6 +15,8 @@ import (
 
 func main() {
 
+	var port = Port("8080")
+
 	workDir, _ := os.Getwd()
 	staticFiles := http.Dir(filepath.Join(workDir, "assets"))
 
@@ -41,7 +43,7 @@ func main() {
 	FileServer(router, "/assets", staticFiles)
 
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    port,
 		Handler: router,
 	}
 
@@ -95,4 +97,16 @@ func FileServer(r chi.Router, path string, root http.FileSystem) {
 		fs := http.StripPrefix(pathPrefix, http.FileServer(root))
 		fs.ServeHTTP(w, r)
 	})
+}
+
+// Returns PORT from environment if found, defaults to
+// value in `port` parameter otherwise. The returned port
+// is prefixed with a `:`, e.g. `":3000"`.
+func Port(port string) string {
+  // If `PORT` variable in environment exists, return it
+  if envPort := os.Getenv("PORT"); envPort != "" {
+    return ":" + envPort
+  }
+  // Otherwise, return the value of `port` variable from function argument
+  return ":" + port
 }
